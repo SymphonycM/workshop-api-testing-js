@@ -39,7 +39,7 @@ describe('First Api Tests', () => {
   });
   
   it('Consume PUT service', async ()=>{
-    const response = await agent.put('https://httpbin.org/put').query({name:'jsjsjs'});
+    const response = await agent.put('https://httpbin.org/put');
     expect(response.status).to.equal(OK);
     expect(response.body).to.have.property('origin');
   });
@@ -63,5 +63,26 @@ describe('First Api Tests', () => {
     expect(response.status).to.equal(OK);
     expect(response.body.form.custemail).to.equal("asdasdas@asd.com");
     expect(response.body.form.comments).to.equal("asasas");
+    expect(response.body.form.topping[0]).to.equal("bacon");
   });
+
+  it('Consume GET service with Json document response', async ()=>{
+    const response = await agent.get('https://httpbin.org/json');
+    expect(response.status).to.equal(OK);
+    expect(response.type).to.equal("application/json");
+  });
+  
+  it('Consume GET service with HTML response', async ()=>{
+    const response = await agent.get('https://httpbin.org/html');
+    expect(response.statusCode).to.equal(OK);
+    expect(response.type).to.equal("text/html");
+  });
+  
+  it('Recieve PNG image using GET service', async ()=>{
+    const response=await agent.get('https://httpbin.org/image/png');
+    
+    expect(response.type).to.equal("image/png");
+    expect(response.status).to.equal(200);
+  });
+  
 });
