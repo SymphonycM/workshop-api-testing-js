@@ -13,6 +13,8 @@ const userTest = 'aperdomob';
 const repoTest = 'jasmine-awesome-report';
 const urlBase = 'https://api.github.com';
 const fileTest = 'README.md';
+let file;
+// const downloadedFileName = 'README2.md';
 
 describe('Testing GET user and downloadind repo', () => {
   let repo;
@@ -59,8 +61,17 @@ describe('Testing GET user and downloadind repo', () => {
       .set('Authorization', `Bearer ${process.env.ACCESS_TOKEN}`)
       .set('User-Agent', 'agent');
 
-    const file = response.body.find((element) => element.name === fileTest);
+    file = response.body.find((element) => element.name === fileTest);
     expect(response.status).to.equal(OK);
     expect(file).to.containSubset({ name: fileTest, path: fileTest, sha: 'b9900ca9b34077fe6a8f2aaa37a173824fa9751d' });
+  });
+
+  it('download README.md file', async () => {
+    const response = await agent.get(`${file.download_url}`)
+      .set('Authorization', `Bearer ${process.env.ACCESS_TOKEN}`)
+      .set('User-Agent', 'agent');
+
+    const downloadedCode = md5(response.text);
+    expect(downloadedCode).to.equal('0e62b07144b4fa997eedb864ff93e26b');
   });
 });
