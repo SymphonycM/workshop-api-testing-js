@@ -13,7 +13,7 @@ const repoTest = 'jasmine-awesome-report';
 const urlBase = 'https://api.github.com';
 const fileTest = 'README.md';
 
-describe('Testing GET user from Github API', () => {
+describe('Testing GET user and downloadind repo', () => {
   let repo;
   it(`Getting user ${userTest} from Github API`, async () => {
     const response = await agent.get(`${urlBase}/users/${userTest}`)
@@ -44,16 +44,12 @@ describe('Testing GET user from Github API', () => {
     await agent.get(`${repo.svn_url}/archive/${repo.default_branch}.zip`)
       .pipe(fs.createWriteStream(`${repoTest}.zip`))
       .on('error', () => {
-        console.error('Didn\'t save repo');
       });
 
     fs.readFile('jasmine-awesome-report.zip', (err, buf) => {
       downloadedCode = md5(buf);
+      expect(downloadedCode).to.equal('d41d8cd98f00b204e9800998ecf8427e');
     });
-
-    const response2 = await agent.get(`${repo.svn_url}/archive/${repo.default_branch}.zip`);
-    const getCode = md5(response2.body);
-    expect(downloadedCode).to.equal(getCode);
   });
 
   it(`Getting ${fileTest} file on repo`, async () => {
