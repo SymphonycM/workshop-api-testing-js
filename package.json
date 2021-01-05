@@ -4,24 +4,24 @@
   "description": "This is a Workshop about Api Testing in JavaScript",
   "main": "index.js",
   "scripts": {
-    "test": "npm run lint && mocha -t 5000 --reporter mochawesome --reporter-options reportDir=report,reportFilename=ApiTesting",
+    "test": "npm run lint && mocha -t 10000 --reporter mochawesome --reporter-options reportDir=report,reportFilename=ApiTesting",
     "lint": "eslint ./test/**/*.js"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/SymphonycM/workshop-api-testing-js.git"
+    "url": "git+https://github.com/luiCham/workshop-api-testing-js.git"
   },
   "keywords": [
     "api-testing",
     "dojo",
     "practice"
   ],
-  "author": "Jorge Luis Herrera Chamat j.l-h@hotmail.com SymphonycM",
+  "author": "Jorge Luis Herrera Chamat j.l-h@hotmail.com luiCham",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/SymphonycM/workshop-api-testing-js/issues"
+    "url": "https://github.com/luiCham/workshop-api-testing-js/issues"
   },
-  "homepage": "https://github.com/SymphonycM/workshop-api-testing-js#readme",
+  "homepage": "https://github.com/luiCham/workshop-api-testing-js#readme",
   "devDependencies": {
     "chai": "^4.2.0",
     "chai-subset": "^1.6.0",
@@ -30,11 +30,11 @@
     "travis": "^0.1.1"
   },
   "dependencies": {
+    "dotenv": "^8.2.0",
     "eslint": "^7.16.0",
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-plugin-import": "^2.22.1",
     "md5": "^2.3.0",
-    "md5sum": "^0.9.0",
     "mochawesome": "^6.2.1",
     "superagent": "^6.1.0",
     "superagent-promise": "^1.1.0",

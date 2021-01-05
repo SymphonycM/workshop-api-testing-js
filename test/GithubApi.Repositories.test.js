@@ -1,3 +1,4 @@
+require('dotenv').config();
 const agent = require('superagent');
 const chai = require('chai');
 const { expect } = require('chai');
@@ -17,7 +18,7 @@ describe('Testing GET user and downloadind repo', () => {
   let repo;
   it(`Getting user ${userTest} from Github API`, async () => {
     const response = await agent.get(`${urlBase}/users/${userTest}`)
-      .auth('token', process.env.ACCESS_TOKEN)
+      .set('Authorization', `Bearer ${process.env.ACCESS_TOKEN}`)
       .set('User-Agent', 'agent');
 
     expect(response.status).to.equal(OK);
@@ -28,7 +29,7 @@ describe('Testing GET user and downloadind repo', () => {
 
   it(`getting repo ${repoTest} from user ${userTest}`, async () => {
     const response = await agent.get(`${urlBase}/users/${userTest}/repos`)
-      .auth('token', process.env.ACCESS_TOKEN)
+      .set('Authorization', `Bearer ${process.env.ACCESS_TOKEN}`)
       .set('User-Agent', 'agent');
 
     repo = response.body.find((repository) => repository.name === repoTest);
@@ -42,6 +43,7 @@ describe('Testing GET user and downloadind repo', () => {
   it(`Downloading repo ${repoTest}`, async () => {
     let downloadedCode;
     await agent.get(`${repo.svn_url}/archive/${repo.default_branch}.zip`)
+      .set('Authorization', `Bearer ${process.env.ACCESS_TOKEN}`)
       .pipe(fs.createWriteStream(`${repoTest}.zip`))
       .on('error', () => {
       });
@@ -54,7 +56,7 @@ describe('Testing GET user and downloadind repo', () => {
 
   it(`Getting ${fileTest} file on repo`, async () => {
     const response = await agent.get(`${urlBase}/repos/${userTest}/${repoTest}/contents/`)
-      .auth('token', process.env.ACCESS_TOKEN)
+      .set('Authorization', `Bearer ${process.env.ACCESS_TOKEN}`)
       .set('User-Agent', 'agent');
 
     const file = response.body.find((element) => element.name === fileTest);
