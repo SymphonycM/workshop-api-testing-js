@@ -27,6 +27,7 @@
     "chai-subset": "^1.6.0",
     "http-status-codes": "^2.1.4",
     "mocha": "^8.2.1",
+    "superagent-response-time": "^1.0.3",
     "travis": "^0.1.1"
   },
   "dependencies": {
