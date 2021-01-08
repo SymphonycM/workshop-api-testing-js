@@ -11,8 +11,9 @@ const urlBase = 'https://api.github.com';
 
 describe('Testing DELETE method with gists', () => {
   let createdGist;
-  it('create gist without promise', async () => {
-    const response = await agent.post(`${urlBase}/gists`, {
+  it('create gist', async () => {
+    let response;
+    await agent.post(`${urlBase}/gists`, {
       files: {
         'test.txt': {
           content: 'Test file'
@@ -21,7 +22,14 @@ describe('Testing DELETE method with gists', () => {
       description: 'test gist'
     })
       .set('Authorization', `Bearer ${process.env.ACCESS_TOKEN}`)
-      .set('User-Agent', 'agent');
+      .set('User-Agent', 'agent')
+      .then((res) => {
+        response = res;
+      })
+      .catch((err) => {
+        console.error(err);
+        response = err;
+      });
 
     expect(response.status).to.equal(201);
     expect(response.body.description).to.equal('test gist');
@@ -62,35 +70,3 @@ describe('Testing DELETE method with gists', () => {
 });
 
 // CREATE GIST IN A PROMISE
-//   it('Create a gist', () => {
-//     let result;
-//     const gistCreation = new Promise((res, err) => {
-//       agent.post(`${urlBase}/gists`, {
-//         files: {
-//           'test.txt': {
-//             content: 'this is a test'
-//           }
-//         },
-//         description: 'Testing promise'
-//       })
-//         .set('Authorization', `Bearer ${process.env.ACCESS_TOKEN}`)
-//         .set('User-Agent', 'agent')
-//         .set('Content-Type', 'application/json')
-//         .end((error, response) => {
-//           if (error) {
-//             err(error);
-//           } else {
-//             res(response);
-//           }
-//         });
-//     });
-//     gistCreation.then((res) => {
-//       result = { ...res };
-//     })
-//       .catch((err) => {
-//         console.error(err.status);
-//         result = { ...err };
-//       });
-//     console.log(result);
-//     expect(result.status).to.equal(201);
-//   });
